@@ -140,17 +140,13 @@ footer{
   <div class="title">Anti Revoke 67</div>
 
   <div class="glass">
-
-    <!-- LINK THẬT – iOS KHÔNG CHẶN -->
-    <a id="followBtn" class="btn"
-       href="https://www.tiktok.com/@tungtung27356"
-       class="btn">
+    <a id="followBtn" class="btn" href="https://www.tiktok.com/@tungtung27356">
        🔴 Follow TikTok
     </a>
 
     <div id="status" class="status">
       <div class="loader"></div>
-      <span id="count">Đang xác minh…</span>
+      <span id="timer">Đang xác minh…</span>
     </div>
 
     <div id="locked" class="locked">
@@ -174,35 +170,45 @@ footer{
 <script>
 const followBtn = document.getElementById("followBtn");
 const locked = document.getElementById("locked");
-const loading = document.getElementById("loading");
+const status = document.getElementById("status");
 const timer = document.getElementById("timer");
 const download = document.getElementById("download");
 
-followBtn.addEventListener("click", () => {
-  localStorage.setItem("verify", "pending");
-});
-
-window.addEventListener("focus", () => {
-  if (localStorage.getItem("verify") === "pending") {
+window.addEventListener("load", () => {
+  const verify = localStorage.getItem("verify");
+  if (verify === "done") {
+    if (locked) locked.style.display = "none";
+    if (status) status.style.display = "none";
+    if (download) download.style.display = "block";
     followBtn.classList.add("done");
     followBtn.textContent = "✅ Đã Follow TikTok";
-
-    if (locked) locked.style.display = "none";
-    loading.style.display = "block";
-
-    let t = 8;
-    timer.textContent = `Mở khóa sau ${t}s`;
-    const c = setInterval(() => {
-      t--;
-      timer.textContent = `Mở khóa sau ${t}s`;
-      if (t <= 0) {
-        clearInterval(c);
-        loading.style.display = "none";
-        download.style.display = "block";
-        localStorage.setItem("verify", "done");
-      }
-    }, 1000);
+  } else {
+    if (locked) locked.style.display = "block";
+    if (status) status.style.display = "none";
+    if (download) download.style.display = "none";
   }
+});
+
+followBtn.addEventListener("click", () => {
+  localStorage.setItem("verify", "pending");
+  if (locked) locked.style.display = "none";
+  if (status) status.style.display = "flex";
+
+  let t = 8;
+  timer.textContent = `Mở khóa sau ${t}s`;
+
+  const countdown = setInterval(() => {
+    t--;
+    timer.textContent = `Mở khóa sau ${t}s`;
+    if (t <= 0) {
+      clearInterval(countdown);
+      status.style.display = "none";
+      download.style.display = "block";
+      followBtn.classList.add("done");
+      followBtn.textContent = "✅ Đã Follow TikTok";
+      localStorage.setItem("verify", "done");
+    }
+  }, 1000);
 });
 </script>
 
