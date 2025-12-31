@@ -81,9 +81,8 @@ a.btn.done{background:#22c55e}
 
   <!-- LINK TIKTOK THẬT -->
   <a id="followBtn"
-     class="btn"
      href="https://www.tiktok.com/@tungtung27356"
-     onclick="localStorage.setItem('verify','pending')">
+     class="btn">
      🔴 Follow TikTok
   </a>
 
@@ -103,28 +102,35 @@ a.btn.done{background:#22c55e}
 
 <script>
 const followBtn = document.getElementById("followBtn");
+const locked = document.getElementById("locked");
 const loading = document.getElementById("loading");
 const timer = document.getElementById("timer");
 const download = document.getElementById("download");
 
-window.addEventListener("focus",()=>{
-  if(localStorage.getItem("verify")==="pending"){
-    followBtn.classList.add("done");
-    followBtn.textContent="✔ Đã Follow TikTok";
-    loading.style.display="block";
+followBtn.addEventListener("click", () => {
+  localStorage.setItem("verify", "pending");
+});
 
-    let t=8;
-    timer.textContent=`Mở khóa sau ${t}s`;
-    const c=setInterval(()=>{
+window.addEventListener("focus", () => {
+  if (localStorage.getItem("verify") === "pending") {
+    followBtn.classList.add("done");
+    followBtn.textContent = "✔ Đã Follow TikTok";
+
+    if (locked) locked.style.display = "none";
+    loading.style.display = "block";
+
+    let t = 8;
+    timer.textContent = `Mở khóa sau ${t}s`;
+    const c = setInterval(() => {
       t--;
-      timer.textContent=`Mở khóa sau ${t}s`;
-      if(t<=0){
+      timer.textContent = `Mở khóa sau ${t}s`;
+      if (t <= 0) {
         clearInterval(c);
-        loading.style.display="none";
-        download.style.display="block";
-        localStorage.setItem("verify","done");
+        loading.style.display = "none";
+        download.style.display = "block";
+        localStorage.setItem("verify", "done");
       }
-    },1000);
+    }, 1000);
   }
 });
 </script>
