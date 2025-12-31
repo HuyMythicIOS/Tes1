@@ -182,22 +182,13 @@ const timer = document.getElementById("timer");
 const download = document.getElementById("download");
 
 window.addEventListener("load", () => {
-  const verify = localStorage.getItem("verify");
-  if (verify === "done") {
-    followBtn.classList.remove("red");
-    followBtn.classList.add("green");
-    followBtn.textContent = "✅ Đã Follow TikTok";
-    if (locked) locked.style.display = "none";
-    if (status) status.style.display = "none";
-    if (download) { download.style.display = "block"; download.classList.add("show"); }
-  } else {
-    followBtn.classList.remove("green");
-    followBtn.classList.add("red");
-    followBtn.textContent = "❌ Follow TikTok";
-    if (locked) locked.style.display = "block";
-    if (status) status.style.display = "none";
-    if (download) { download.style.display = "none"; download.classList.remove("show"); }
-  }
+  localStorage.removeItem("verify"); // reset trạng thái test
+  followBtn.classList.remove("green");
+  followBtn.classList.add("red");
+  followBtn.textContent = "❌ Follow TikTok";
+  if (locked) locked.style.display = "block";
+  if (status) status.style.display = "none";
+  if (download) { download.style.display = "none"; download.classList.remove("show"); }
 });
 
 followBtn.addEventListener("click", () => {
@@ -217,7 +208,7 @@ followBtn.addEventListener("click", () => {
       if (download) { download.style.display = "block"; download.classList.add("show"); }
       followBtn.classList.remove("red");
       followBtn.classList.add("green");
-      followBtn.textContent = "✔ Đã Follow TikTok";
+      followBtn.textContent = "✅ Đã Follow TikTok";
       localStorage.setItem("verify", "done");
     }
   }, 1000);
