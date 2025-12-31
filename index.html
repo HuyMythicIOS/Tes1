@@ -4,217 +4,129 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Anti Revoke 67</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{
-  width:100%;
-  min-height:100%;
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-  background:black;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-}
-canvas{
-  position:fixed;
-  inset:0;
-  z-index:0;
-}
-@keyframes slideUp{
-  from{transform:translateY(60px);opacity:0}
-  to{transform:translateY(0);opacity:1}
-}
-.container{
-  position:relative;
-  z-index:2;
-  min-height:100vh;
-  padding:
-    env(safe-area-inset-top)
-    16px
-    calc(env(safe-area-inset-bottom) + 120px);
+  height:100vh;
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
-  animation:slideUp .9s ease-out;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  color:white;
 }
-.title{
-  font-size:44px;
-  font-weight:900;
-  color:#f5d0fe;
-  margin-bottom:22px;
-  text-align:center;
-  text-shadow:
-    0 0 12px #c084fc,
-    0 0 28px #9333ea,
-    0 0 52px #6d28d9;
-}
-.glass{
+.box{
   width:100%;
   max-width:360px;
-  padding:24px;
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(16px);
   border-radius:20px;
-  background:rgba(20,10,40,.55);
-  backdrop-filter:blur(18px);
-  border:1px solid rgba(168,85,247,.35);
-  box-shadow:0 0 30px rgba(168,85,247,.35);
+  padding:24px;
   text-align:center;
+  box-shadow:0 0 30px rgba(168,85,247,.4);
 }
-.btn{
+h1{
+  font-size:28px;
+  margin-bottom:8px;
+  text-shadow:0 0 15px #a855f7;
+}
+p{
+  font-size:14px;
+  opacity:.85;
+  margin-bottom:20px;
+}
+a.btn{
   display:block;
   width:100%;
-  padding:14px;
+  padding:15px;
   border-radius:14px;
-  background:#ff0033;
-  color:#fff;
+  background:#ff0050;
+  color:white;
   font-size:16px;
   font-weight:700;
   text-decoration:none;
 }
-.status{
-  margin-top:16px;
+a.btn.done{background:#22c55e}
+.loading{
   display:none;
-  justify-content:center;
-  align-items:center;
-  gap:10px;
-  color:#22c55e;
-}
-.loader{
-  width:22px;height:22px;
-  border:3px solid rgba(255,255,255,.2);
-  border-top:3px solid #22c55e;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.locked{
-  margin-top:18px;
-  padding:16px;
-  border-radius:14px;
-  background:rgba(0,0,0,.4);
-  border:1px solid rgba(255,0,0,.45);
-  color:#f87171;
-  font-size:14px;
-}
-.locked span{
-  display:block;
-  margin-bottom:6px;
-  font-size:20px;
+  margin-top:14px;
 }
 .download{
-  margin-top:18px;
   display:none;
-  padding:16px;
+  margin-top:18px;
+  padding:14px;
   border-radius:14px;
-  background:rgba(0,0,0,.4);
-  border:1px solid rgba(34,197,94,.45);
-}
-.download .ok{
-  color:#22c55e;
-  font-weight:700;
-  margin-bottom:8px;
+  background:rgba(34,197,94,.15);
+  border:1px solid #22c55e;
 }
 .download a{
-  display:block;
   color:#22c55e;
   font-weight:700;
   text-decoration:none;
-  word-break:break-all;
 }
-footer{
-  position:relative;
-  z-index:2;
-  text-align:center;
-  font-size:12px;
-  color:rgba(255,255,255,.35);
-  padding:20px 12px env(safe-area-inset-bottom);
+.timer{
+  margin-top:8px;
+  font-size:14px;
+  opacity:.9;
 }
 </style>
 </head>
+
 <body>
 
-<canvas id="space"></canvas>
+<div class="box">
+  <h1>Anti Revoke 67</h1>
+  <p>Follow TikTok để mở khóa tải cấu hình</p>
 
-<div class="container">
-  <div class="title">Anti Revoke 67</div>
+  <!-- LINK TIKTOK THẬT -->
+  <a id="followBtn"
+     class="btn"
+     href="https://www.tiktok.com/@tungtung27356"
+     onclick="localStorage.setItem('verify','pending')">
+     🔴 Follow TikTok
+  </a>
 
-  <div class="glass">
+  <div class="loading" id="loading">
+    ⏳ Đang xác minh…
+    <div class="timer" id="timer"></div>
+  </div>
 
-    <!-- LINK THẬT – iOS KHÔNG CHẶN -->
-    <a id="followBtn" class="btn"
-       href="https://www.tiktok.com/@tungtung27356"
-       onclick="localStorage.setItem('tt_follow','pending')">
-       🔴 Follow TikTok
+  <div class="download" id="download">
+    ✅ Xác minh thành công  
+    <br><br>
+    <a href="https://github.com/HuyMythicIOS/Tes1/releases/download/v1.67/Anti_Revoke_67.mobileconfig">
+      📥 Tải cấu hình DNS
     </a>
-
-    <div id="status" class="status">
-      <div class="loader"></div>
-      <span id="count">Đang xác minh…</span>
-    </div>
-
-    <div id="locked" class="locked">
-      <span>❌</span>
-      Vui lòng Follow TikTok để mở khoá tải
-    </div>
-
-    <div id="download" class="download">
-      <div class="ok">✅ Follow TikTok thành công</div>
-      <a href="https://github.com/HuyMythicIOS/Tes1/releases/download/v1.67/Anti_Revoke_67.mobileconfig">
-        📥 Tải cấu hình DNS
-      </a>
-    </div>
   </div>
 </div>
 
-<footer>
-  © Web được tạo bởi HuyMythicIOS – 2026
-</footer>
-
 <script>
+const followBtn = document.getElementById("followBtn");
+const loading = document.getElementById("loading");
+const timer = document.getElementById("timer");
+const download = document.getElementById("download");
+
 window.addEventListener("focus",()=>{
-  if(localStorage.getItem("tt_follow")==="pending"){
-    const status=document.getElementById("status");
-    const count=document.getElementById("count");
-    const locked=document.getElementById("locked");
-    const download=document.getElementById("download");
-    status.style.display="flex";
+  if(localStorage.getItem("verify")==="pending"){
+    followBtn.classList.add("done");
+    followBtn.textContent="✔ Đã Follow TikTok";
+    loading.style.display="block";
+
     let t=8;
-    count.textContent="Mở khoá sau "+t+"s";
-    const timer=setInterval(()=>{
+    timer.textContent=`Mở khóa sau ${t}s`;
+    const c=setInterval(()=>{
       t--;
-      count.textContent="Mở khoá sau "+t+"s";
+      timer.textContent=`Mở khóa sau ${t}s`;
       if(t<=0){
-        clearInterval(timer);
-        status.style.display="none";
-        locked.style.display="none";
+        clearInterval(c);
+        loading.style.display="none";
         download.style.display="block";
+        localStorage.setItem("verify","done");
       }
     },1000);
-    localStorage.setItem("tt_follow","done");
   }
-};
-
-const c=document.getElementById("space");
-const x=c.getContext("2d");
-let w,h,stars=[];
-function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
-resize();onresize=resize;
-for(let i=0;i<220;i++){
-  stars.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5,s:Math.random()*.6+.2});
-}
-(function draw(){
-  x.clearRect(0,0,w,h);
-  x.fillStyle="white";
-  stars.forEach(s=>{
-    x.globalAlpha=Math.random();
-    x.beginPath();
-    x.arc(s.x,s.y,s.r,0,Math.PI*2);
-    x.fill();
-    s.y+=s.s;if(s.y>h)s.y=0;
-  });
-  requestAnimationFrame(draw);
-})();
+});
 </script>
 
 </body>
