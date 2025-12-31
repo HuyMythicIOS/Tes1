@@ -62,16 +62,16 @@ canvas{
   text-align:center;
 }
 .btn{
+  display:block;
   width:100%;
   padding:14px;
   border-radius:14px;
-  border:none;
   background:#ff0033;
   color:#fff;
   font-size:16px;
   font-weight:700;
+  text-decoration:none;
 }
-.btn:active{transform:scale(.96)}
 .status{
   margin-top:16px;
   display:none;
@@ -81,8 +81,7 @@ canvas{
   color:#22c55e;
 }
 .loader{
-  width:22px;
-  height:22px;
+  width:22px;height:22px;
   border:3px solid rgba(255,255,255,.2);
   border-top:3px solid #22c55e;
   border-radius:50%;
@@ -141,7 +140,13 @@ footer{
   <div class="title">Anti Revoke 67</div>
 
   <div class="glass">
-    <button id="followBtn" class="btn">🔴 Follow TikTok</button>
+
+    <!-- LINK THẬT – iOS KHÔNG CHẶN -->
+    <a id="followBtn" class="btn"
+       href="https://www.tiktok.com/@tungtung27356"
+       onclick="localStorage.setItem('tt_follow','pending')">
+       🔴 Follow TikTok
+    </a>
 
     <div id="status" class="status">
       <div class="loader"></div>
@@ -167,21 +172,12 @@ footer{
 </footer>
 
 <script>
-const btn=document.getElementById("followBtn");
-const status=document.getElementById("status");
-const count=document.getElementById("count");
-const locked=document.getElementById("locked");
-const download=document.getElementById("download");
-
-btn.onclick=()=>{
-  localStorage.setItem("tt_follow","pending");
-  location.href="https://www.tiktok.com/@tungtung27356";
-};
-
 window.addEventListener("focus",()=>{
   if(localStorage.getItem("tt_follow")==="pending"){
-    btn.disabled=true;
-    btn.innerHTML="✅ Đã Follow TikTok";
+    const status=document.getElementById("status");
+    const count=document.getElementById("count");
+    const locked=document.getElementById("locked");
+    const download=document.getElementById("download");
     status.style.display="flex";
     let t=8;
     count.textContent="Mở khoá sau "+t+"s";
@@ -202,12 +198,8 @@ window.addEventListener("focus",()=>{
 const c=document.getElementById("space");
 const x=c.getContext("2d");
 let w,h,stars=[];
-function resize(){
-  w=c.width=innerWidth;
-  h=c.height=innerHeight;
-}
-resize();
-onresize=resize;
+function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
+resize();onresize=resize;
 for(let i=0;i<220;i++){
   stars.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5,s:Math.random()*.6+.2});
 }
@@ -219,8 +211,7 @@ for(let i=0;i<220;i++){
     x.beginPath();
     x.arc(s.x,s.y,s.r,0,Math.PI*2);
     x.fill();
-    s.y+=s.s;
-    if(s.y>h)s.y=0;
+    s.y+=s.s;if(s.y>h)s.y=0;
   });
   requestAnimationFrame(draw);
 })();
