@@ -185,7 +185,7 @@ followBtn.addEventListener("click", () => {
 window.addEventListener("focus", () => {
   if (localStorage.getItem("verify") === "pending") {
     followBtn.classList.add("done");
-    followBtn.textContent = "✔ Đã Follow TikTok";
+    followBtn.textContent = "✅ Đã Follow TikTok";
 
     if (locked) locked.style.display = "none";
     loading.style.display = "block";
