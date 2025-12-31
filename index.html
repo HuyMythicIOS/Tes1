@@ -141,7 +141,7 @@ footer{
   <div class="title">Anti Revoke 67</div>
 
   <div class="glass">
-    <button id="verifyBtn" class="btn">🔴 Xác minh TikTok</button>
+    <button id="followBtn" class="btn">🔴 Follow TikTok</button>
 
     <div id="status" class="status">
       <div class="loader"></div>
@@ -150,11 +150,11 @@ footer{
 
     <div id="locked" class="locked">
       <span>❌</span>
-      Vui lòng xác minh để mở khoá tải
+      Vui lòng Follow TikTok để mở khoá tải
     </div>
 
     <div id="download" class="download">
-      <div class="ok">✅ Xác thực thành công</div>
+      <div class="ok">✅ Follow TikTok thành công</div>
       <a href="https://github.com/HuyMythicIOS/Tes1/releases/download/v1.67/Anti_Revoke_67.mobileconfig">
         📥 Tải cấu hình DNS
       </a>
@@ -167,27 +167,27 @@ footer{
 </footer>
 
 <script>
-const btn=document.getElementById("verifyBtn");
+const btn=document.getElementById("followBtn");
 const status=document.getElementById("status");
 const count=document.getElementById("count");
 const locked=document.getElementById("locked");
 const download=document.getElementById("download");
 
 btn.onclick=()=>{
-  window.open("https://www.tiktok.com/@tungtung27356","_blank");
-  localStorage.setItem("tt_verify","pending");
+  localStorage.setItem("tt_follow","pending");
+  location.href="https://www.tiktok.com/@tungtung27356";
 };
 
 window.addEventListener("focus",()=>{
-  if(localStorage.getItem("tt_verify")==="pending"){
+  if(localStorage.getItem("tt_follow")==="pending"){
     btn.disabled=true;
-    btn.innerHTML="✔ Đã gửi xác minh TikTok";
+    btn.innerHTML="✅ Đã Follow TikTok";
     status.style.display="flex";
     let t=8;
-    count.textContent="Xác minh sau "+t+"s";
+    count.textContent="Mở khoá sau "+t+"s";
     const timer=setInterval(()=>{
       t--;
-      count.textContent="Xác minh sau "+t+"s";
+      count.textContent="Mở khoá sau "+t+"s";
       if(t<=0){
         clearInterval(timer);
         status.style.display="none";
@@ -195,7 +195,7 @@ window.addEventListener("focus",()=>{
         download.style.display="block";
       }
     },1000);
-    localStorage.setItem("tt_verify","done");
+    localStorage.setItem("tt_follow","done");
   }
 };
 
